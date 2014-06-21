@@ -5,7 +5,7 @@ The very basic usage: ./countuper.pl http://target.host.tld/path/to
 
 Advanced usage:
 ```
-$ cat /var/log/nginx/access.log |./collect_uas.pl > uas_list.txt
+$ cat /var/log/apache2/access.log |./collect_uas.pl > uas_list.txt
 $ ./countuper.pl -a uas_list.txt -m 5 -M 10 http://target.host.tld/path/to
 ```
 
