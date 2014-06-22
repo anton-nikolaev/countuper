@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 
 use strict;
-use LWP::UserAgent;
 use Getopt::Long;
 use Data::Dumper;
 
@@ -73,17 +72,13 @@ else
         unless @uas;
 };
 
-my $ua = LWP::UserAgent->new();
-$ua->timeout(5);
-$ua->env_proxy;
-
 while('forever')
 {
     my $ua_str = (@uas == 1) ? $uas[0] : $uas[int(rand(scalar @uas))]; 
-    $ua->agent($ua_str);
     verb("GET $target_url $ua_str");
-    my $resp = $ua->get($target_url) or die "LWP::UserAgent error: $!";
-    verb($resp->status_line);
+    system("/usr/bin/wget -".($verbose ? "nv" : "q")." -H --delete-after ".
+        "-U \"$ua_str\" -p $target_url");
+
     my $sleep_time =
         $max_period ?
         $min_period + int(rand($max_period - $min_period)) :
